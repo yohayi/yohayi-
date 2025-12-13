@@ -1,0 +1,45 @@
+name: 部署网站到 GitHub Pages
+
+# 当代码推送到 main 分支时，自动运行此工作流
+on:
+  push:
+    branches: [ "main" ]
+
+# 授予工作流必要的权限
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 防止并发部署导致冲突
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # 唯一的任务：部署
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }} # 部署成功后，会在这里生成你的网站链接
+
+    steps:
+      # 1. 拉取你的代码
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      # 2. 配置 GitHub Pages 环境
+      - name: 配置 Pages
+        uses: actions/configure-pages@v4
+
+      # 3. 上传整个仓库（除了.git）作为网站文件
+      - name: 上传网站文件
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.' # 上传当前目录所有文件
+
+      # 4. 执行部署
+      - name: 开始部署
+        id: deployment
+        uses: actions/deploy-pages@v4
