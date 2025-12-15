@@ -705,7 +705,332 @@
         }
     </style>
 </head>
-<body>
+<body><!-- ===== 可编辑链接工具栏 ===== -->
+<div id="link-bar">
+    <!-- 工具栏头部：显示和编辑切换 -->
+    <div class="link-bar-header">
+        <span>🔗 快捷链接</span>
+        <button id="toggle-edit-btn" title="编辑链接">✎</button>
+    </div>
+    
+    <!-- 链接展示区 -->
+    <div class="links-container" id="links-display">
+        <!-- 链接会在这里动态生成 -->
+    </div>
+    
+    <!-- 链接编辑区 (默认隐藏) -->
+    <div class="edit-container" id="links-edit" style="display: none;">
+        <textarea id="links-input" placeholder="在这里添加或编辑链接，格式为：
+名称1 | https://example.com
+名称2 | https://another.com
+每条链接占一行，名称和网址用“ | ”分隔。"></textarea>
+        <div class="edit-actions">
+            <button id="save-links-btn">💾 保存</button>
+            <button id="cancel-edit-btn">❌ 取消</button>
+            <button id="reset-links-btn" title="恢复默认">🔄 重置</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 链接工具栏的核心逻辑
+    (function() {
+        // 存储键和默认链接
+        const STORAGE_KEY = 'yohayi_quick_links';
+        const DEFAULT_LINKS = [
+            { name: '几何字符串映射', url: 'https://github.com/yohayi/geometry-string-map' },
+            { name: '研究项目集', url: 'https://github.com/yohayi/2025-2026-' },
+            { name: 'B站主页', url: 'https://space.bilibili.com/1998115340' }
+        ];
+        
+        // 获取DOM元素
+        const linksDisplay = document.getElementById('links-display');
+        const linksEdit = document.getElementById('links-edit');
+        const linksInput = document.getElementById('links-input');
+        const toggleEditBtn = document.getElementById('toggle-edit-btn');
+        const saveBtn = document.getElementById('save-links-btn');
+        const cancelBtn = document.getElementById('cancel-edit-btn');
+        const resetBtn = document.getElementById('reset-links-btn');
+        
+        // 加载链接
+        function loadLinks() {
+            let links;
+            const stored = localStorage.getItem(STORAGE_KEY);
+            if (stored) {
+                try {
+                    links = JSON.parse(stored);
+                } catch(e) {
+                    links = DEFAULT_LINKS;
+                }
+            } else {
+                links = DEFAULT_LINKS;
+            }
+            return links;
+        }
+        
+        // 保存链接
+        function saveLinks(links) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(links));
+        }
+        
+        // 渲染链接展示
+        function renderLinks() {
+            const links = loadLinks();
+            linksDisplay.innerHTML = links.map(link => 
+                `<a href="${link.url}" target="_blank" class="link-tag" title="${link.url}">${link.name}</a>`
+            ).join('');
+        }
+        
+        // 进入编辑模式
+        function enterEditMode() {
+            const links = loadLinks();
+            // 将链接数组转换为文本格式
+            const text = links.map(link => `${link.name} | ${link.url}`).join('\n');
+            linksInput.value = text;
+            
+            linksDisplay.style.display = 'none';
+            linksEdit.style.display = 'block';
+            toggleEditBtn.textContent = '←';
+            toggleEditBtn.title = '返回展示';
+        }
+        
+        // 退出编辑模式
+        function exitEditMode() {
+            linksDisplay.style.display = 'flex';
+            linksEdit.style.display = 'none';
+            toggleEditBtn.textContent = '✎';
+            toggleEditBtn.title = '编辑链接';
+            renderLinks(); // 重新渲染确保显示最新数据
+        }
+        
+        // 保存编辑
+        function saveEditedLinks() {
+            const text = linksInput.value.trim();
+            if (!text) {
+                alert('链接内容不能为空！');
+                return;
+            }
+            
+            const lines = text.split('\n').filter(line => line.trim());
+            const newLinks = [];
+            
+            for (const line of lines) {
+                const parts = line.split('|').map(part => part.trim());
+                if (parts.length >= 2 && parts[0] && parts[1]) {
+                    // 确保URL有协议头
+                    let url = parts[1];
+                    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                        url = 'https://' + url;
+                    }
+                    newLinks.push({ name: parts[0], url: url });
+                }
+            }
+            
+            if (newLinks.length > 0) {
+                saveLinks(newLinks);
+                exitEditMode();
+            } else {
+                alert('未检测到有效链接格式。请使用“名称 | 网址”的格式。');
+            }
+        }
+        
+        // 事件监听
+        toggleEditBtn.addEventListener('click', function() {
+            if (linksEdit.style.display === 'none') {
+                enterEditMode();
+            } else {
+                exitEditMode();
+            }
+        });
+        
+        saveBtn.addEventListener('click', saveEditedLinks);
+        
+        cancelBtn.addEventListener('click', exitEditMode);
+        
+        resetBtn.addEventListener('click', function() {
+            if (confirm('确定要恢复默认链接吗？这会覆盖你当前的设置。')) {
+                saveLinks(DEFAULT_LINKS);
+                exitEditMode();
+            }
+        });
+        
+        // 初始化渲染
+        renderLinks();
+    })();
+</script>
+
+<style>
+    /* 链接工具栏样式 */
+    #link-bar {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 380px;
+        max-width: 90vw;
+        background: rgba(30, 41, 59, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        z-index: 9999;
+        font-family: inherit;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+    
+    #link-bar:hover {
+        box-shadow: 0 15px 40px rgba(79, 70, 229, 0.25);
+        border-color: rgba(79, 70, 229, 0.3);
+    }
+    
+    .link-bar-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 16px;
+        background: rgba(15, 23, 42, 0.8);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        font-weight: 600;
+        color: #e2e8f0;
+    }
+    
+    #toggle-edit-btn {
+        background: rgba(79, 70, 229, 0.2);
+        border: 1px solid rgba(79, 70, 229, 0.4);
+        color: #818cf8;
+        border-radius: 8px;
+        width: 32px;
+        height: 32px;
+        cursor: pointer;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+    }
+    
+    #toggle-edit-btn:hover {
+        background: rgba(79, 70, 229, 0.4);
+        transform: scale(1.05);
+    }
+    
+    /* 链接展示区样式 */
+    .links-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 16px;
+        max-height: 200px;
+        overflow-y: auto;
+    }
+    
+    .link-tag {
+        display: inline-block;
+        padding: 8px 14px;
+        background: rgba(79, 70, 229, 0.15);
+        color: #c7d2fe;
+        border-radius: 50px;
+        text-decoration: none;
+        font-size: 0.9rem;
+        border: 1px solid rgba(79, 70, 229, 0.3);
+        transition: all 0.2s;
+        white-space: nowrap;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    .link-tag:hover {
+        background: rgba(79, 70, 229, 0.3);
+        color: white;
+        transform: translateY(-2px);
+        border-color: rgba(79, 70, 229, 0.6);
+        box-shadow: 0 5px 15px rgba(79, 70, 229, 0.2);
+    }
+    
+    /* 链接编辑区样式 */
+    .edit-container {
+        padding: 16px;
+    }
+    
+    #links-input {
+        width: 100%;
+        min-height: 120px;
+        padding: 12px;
+        background: rgba(15, 23, 42, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        color: #e2e8f0;
+        font-family: monospace;
+        font-size: 0.9rem;
+        resize: vertical;
+        margin-bottom: 12px;
+    }
+    
+    #links-input:focus {
+        outline: none;
+        border-color: #4f46e5;
+        box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+    }
+    
+    .edit-actions {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+    }
+    
+    .edit-actions button {
+        padding: 8px 16px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        font-weight: 500;
+        font-size: 0.9rem;
+        transition: all 0.2s;
+    }
+    
+    #save-links-btn {
+        background: linear-gradient(135deg, #4f46e5, #7c3aed);
+        color: white;
+    }
+    
+    #save-links-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(79, 70, 229, 0.4);
+    }
+    
+    #cancel-edit-btn {
+        background: rgba(255, 255, 255, 0.05);
+        color: #cbd5e1;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    #reset-links-btn {
+        background: rgba(245, 158, 11, 0.1);
+        color: #f59e0b;
+        border: 1px solid rgba(245, 158, 11, 0.2);
+    }
+    
+    /* 响应式调整 */
+    @media (max-width: 768px) {
+        #link-bar {
+            bottom: 10px;
+            right: 10px;
+            left: 10px;
+            width: auto;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .links-container {
+            max-height: 150px;
+        }
+        .link-tag {
+            font-size: 0.85rem;
+            padding: 6px 12px;
+        }
+    }
+</style>
     <!-- 几何背景元素 -->
     <div class="geometric-bg" id="geometric-bg"></div>
     
