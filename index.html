@@ -177,6 +177,68 @@
             border-radius: 2px;
         }
         
+        /* BDCG协会标签 - 闪闪亮亮效果 */
+        .association-label {
+            display: inline-block;
+            margin: 1.5rem auto 2rem;
+            padding: 0.6rem 1.8rem;
+            background: linear-gradient(
+                90deg,
+                #ff0000 0%,
+                #ff8800 20%,
+                #ffff00 40%,
+                #00ff00 60%,
+                #0088ff 80%,
+                #ff00ff 100%
+            );
+            background-size: 300% 300%;
+            animation: shimmer 3s infinite linear, pulse 2s infinite ease-in-out;
+            color: #000;
+            font-weight: 800;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            box-shadow: 
+                0 0 20px rgba(255, 255, 255, 0.5),
+                0 0 40px rgba(255, 215, 0, 0.4),
+                inset 0 0 15px rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        
+        .association-label::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.4) 50%,
+                transparent 100%
+            );
+            animation: shine 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        @keyframes shine {
+            0% { left: -100%; }
+            50%, 100% { left: 100%; }
+        }
+        
         .tagline {
             font-size: 1.5rem;
             color: var(--gray);
@@ -840,6 +902,11 @@
                 left: 10px;
                 width: auto;
             }
+            .association-label {
+                font-size: 1rem;
+                padding: 0.5rem 1.2rem;
+                margin: 1rem auto 1.5rem;
+            }
         }
         
         @media (max-width: 480px) {
@@ -849,6 +916,10 @@
             .link-tag {
                 font-size: 0.85rem;
                 padding: 6px 12px;
+            }
+            .association-label {
+                font-size: 0.9rem;
+                padding: 0.4rem 1rem;
             }
         }
         
@@ -888,6 +959,12 @@
             
             <!-- 主标题 -->
             <h1 class="main-title">Yohayi</h1>
+            
+            <!-- BDCG协会标签 -->
+            <div class="association-label">
+                BDCG万象协会-创始人
+            </div>
+            
             <p class="tagline">在几何与字符串的交汇处，构建品牌宇宙的跨维度创作者</p>
             
             <!-- 导航按钮 -->
