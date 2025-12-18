@@ -1157,7 +1157,6 @@
         <!-- 网站展示网格 -->
         <div class="cards-grid" id="websites-container">
             <!-- 网站卡片将通过JavaScript动态生成 -->
-            <!-- 初始会显示几个示例网站 -->
         </div>
         
         <!-- 空状态提示 -->
@@ -1216,6 +1215,24 @@
                     <a href="https://www.xiaohongshu.com/user/profile/6926854c000000003201be2d" target="_blank" class="card-link">
                         <i class="fab fa-weixin"></i> 小红书主页
                     </a>
+                </div>
+            </div>
+            
+            <div class="card fade-in" style="animation-delay: 0.3s;">
+                <div class="card-icon">
+                    <i class="fas fa-address-card"></i>
+                </div>
+                <h3 class="card-title">联系方式</h3>
+                <p class="card-text">如需直接联系，请使用以下联系方式：</p>
+                <div style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 0.8rem;">
+                        <i class="fas fa-envelope" style="color: var(--primary);"></i>
+                        <span>邮箱：3114228696@qq.com</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.8rem;">
+                        <i class="fas fa-phone" style="color: var(--primary);"></i>
+                        <span>电话：13377886896</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1339,37 +1356,107 @@
         let currentFilter = 'all';
         let editingId = null;
         
-        // 初始化示例数据
+        // 初始化包含所有新网站的数据
         const exampleWebsites = [
             {
                 id: '1',
-                name: '几何视觉实验室',
-                description: '交互式几何可视化工具，允许用户实时操作几何形状并观察字符串映射过程。',
-                status: 'building',
-                url: '#',
-                github: 'https://github.com/yohayi/geometry-visualizer',
-                tags: ['几何', '可视化', '交互'],
-                image: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=800&auto=format&fit=crop'
+                name: '信技化生-技术交流网站',
+                description: '信息技术、化学、生物等多学科技术交流与资源共享平台，促进跨领域知识融合与创新。',
+                status: 'live',
+                url: 'https://yohayi.github.io/-history/',
+                github: '',
+                tags: ['技术', '交流', '多学科'],
+                image: 'https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=800&auto=format&fit=crop'
             },
             {
                 id: '2',
-                name: '品牌叙事档案馆',
-                description: '系统性整理跨平台品牌叙事案例，分析成功模式与创作方法论。',
-                status: 'planning',
-                url: '#',
-                github: 'https://github.com/yohayi/brand-narrative-archive',
-                tags: ['品牌', '叙事', '案例研究'],
-                image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop'
+                name: '惊鸿斋官方网站',
+                description: '惊鸿斋品牌官方网站，展示品牌理念、产品与服务，传达独特的美学理念与文化价值。',
+                status: 'live',
+                url: 'https://yohayi.github.io/jinghongzhai--/',
+                github: '',
+                tags: ['品牌', '美学', '官方网站'],
+                image: 'https://images.unsplash.com/photo-1545235617-9465d2a55698?w=800&auto=format&fit=crop'
             },
             {
                 id: '3',
-                name: '数据弦理论门户',
-                description: '将高维数据通过弦理论可视化方法降维展示，探索数据的内在结构与模式。',
+                name: '杭州市教育总结',
+                description: '杭州市教育体系总结与数据分析网站，提供教育资源、政策解读与教育发展趋势分析。',
                 status: 'live',
-                url: 'https://yohayi.github.io/data-string-theory',
-                github: 'https://github.com/yohayi/data-string-theory',
-                tags: ['数据可视化', '弦理论', '高维数据'],
+                url: 'https://yohayi.github.io/my-personal-edu-website/',
+                github: '',
+                tags: ['教育', '杭州', '数据分析'],
+                image: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&auto=format&fit=crop'
+            },
+            {
+                id: '4',
+                name: '教育数据与交流网站',
+                description: '教育数据可视化与分析平台，促进教育工作者之间的经验交流与资源共享。',
+                status: 'live',
+                url: 'https://yohayi.github.io/2026--/index.html',
+                github: '',
+                tags: ['教育', '数据', '可视化'],
+                image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&auto=format&fit=crop'
+            },
+            {
+                id: '5',
+                name: '几何弦理论课后交流',
+                description: '几何弦理论课程课后交流平台，分享学习资源、讨论问题与研究成果。',
+                status: 'live',
+                url: 'https://yohayi.github.io/geometry-string-map/',
+                github: '',
+                tags: ['几何', '弦理论', '教育'],
                 image: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&auto=format&fit=crop'
+            },
+            {
+                id: '6',
+                name: 'BDCG游戏技术与美术素材',
+                description: 'BDCG协会游戏开发技术与美术素材资源库，提供游戏开发教程、工具与素材下载。',
+                status: 'live',
+                url: 'https://yohayi.github.io/BDCG---/',
+                github: '',
+                tags: ['游戏', '技术', '美术', 'BDCG'],
+                image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&auto=format&fit=crop'
+            },
+            {
+                id: '7',
+                name: '游海洋个人网站',
+                description: '游海洋个人作品展示与博客平台，分享个人项目、技术文章与创作心得。',
+                status: 'live',
+                url: 'https://yohayi.github.io/yohayi-/',
+                github: '',
+                tags: ['个人', '作品集', '博客'],
+                image: 'https://images.unsplash.com/photo-1545235617-9465d2a55698?w=800&auto=format&fit=crop'
+            },
+            {
+                id: '8',
+                name: '流式AI监控',
+                description: '流式人工智能监控系统展示平台，演示AI在实时监控与分析中的应用。',
+                status: 'live',
+                url: 'https://yohayi.github.io/-AI-/',
+                github: '',
+                tags: ['AI', '监控', '实时'],
+                image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&auto=format&fit=crop'
+            },
+            {
+                id: '9',
+                name: '全球教育部',
+                description: '全球教育趋势与政策分析平台，提供国际教育资源与跨文化教育交流机会。',
+                status: 'live',
+                url: 'https://yohayi.github.io/2025-2029global-/',
+                github: '',
+                tags: ['全球', '教育', '政策'],
+                image: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&auto=format&fit=crop'
+            },
+            {
+                id: '10',
+                name: '不被定义的美',
+                description: '探索美学多样性，挑战传统审美标准，展示各种形式与风格的艺术表达。',
+                status: 'live',
+                url: 'https://yohayi.github.io/jinghongzai--2025-2029/',
+                github: '',
+                tags: ['美学', '艺术', '多样性'],
+                image: 'https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=800&auto=format&fit=crop'
             }
         ];
         
@@ -1716,19 +1803,20 @@
     <!-- ===== 快捷链接工具栏独立脚本 (修复版) ===== -->
     <script>
         (function() {
-            // 存储键和默认链接 (语法已修复)
+            // 存储键和默认链接
             const STORAGE_KEY = 'yohayi_quick_links';
             const DEFAULT_LINKS = [
-                { name: '几何字符串映射', url: 'https://github.com/yohayi/geometry-string-map' },
-                { name: '研究项目集', url: 'https://github.com/yohayi/2025-2026-' },
-                { name: 'B站主页', url: 'https://space.bilibili.com/1998115340' },
                 { name: '信技化生-技术交流网站', url: 'https://yohayi.github.io/-history/' },
-                { name: '“惊鸿斋”官方网站', url: 'https://yohayi.github.io/jinghongzhai--/' },
+                { name: '惊鸿斋官方网站', url: 'https://yohayi.github.io/jinghongzhai--/' },
                 { name: '杭州市教育总结', url: 'https://yohayi.github.io/my-personal-edu-website/' },
                 { name: '教育数据与交流网站', url: 'https://yohayi.github.io/2026--/index.html' },
-                { name: '几何弦理论课后交流-网站', url: 'https://yohayi.github.io/geometry-string-map/' },
-                { name: 'BDCG游戏技术与美术素材网站', url: 'https://yohayi.github.io/BDCG---/' },
-                { name: '游海洋个人网站', url: 'https://yohayi.github.io/yohayi-/' }
+                { name: '几何弦理论课后交流', url: 'https://yohayi.github.io/geometry-string-map/' },
+                { name: 'BDCG游戏技术与美术素材', url: 'https://yohayi.github.io/BDCG---/' },
+                { name: '流式AI监控', url: 'https://yohayi.github.io/-AI-/' },
+                { name: '全球教育部', url: 'https://yohayi.github.io/2025-2029global-/' },
+                { name: '不被定义的美', url: 'https://yohayi.github.io/jinghongzai--2025-2029/' },
+                { name: 'GitHub主站', url: 'https://github.com/yohayi' },
+                { name: '哔哩哔哩频道', url: 'https://space.bilibili.com/1998115340' }
             ];
             
             // 获取DOM元素
@@ -1819,7 +1907,7 @@
                     saveLinks(newLinks);
                     exitEditMode();
                 } else {
-                    alert('未检测到有效链接格式。请使用“名称 | 网址”的格式。');
+                    alert('未检测到有效链接格式。请使用"名称 | 网址"的格式。');
                 }
             }
             
