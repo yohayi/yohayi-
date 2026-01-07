@@ -180,7 +180,7 @@
         /* BDCG协会标签 - 闪闪亮亮效果 */
         .association-label {
             display: inline-block;
-            margin: 1.5rem auto 2rem;
+            margin: 1.5rem auto 1rem;
             padding: 0.6rem 1.8rem;
             background: linear-gradient(
                 90deg,
@@ -221,6 +221,57 @@
                 transparent 100%
             );
             animation: shine 2s infinite;
+        }
+        
+        /* 新增头衔区域样式 */
+        .additional-titles {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1rem auto 2rem;
+            max-width: 900px;
+        }
+        
+        .title-tag {
+            padding: 0.5rem 1.2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--light);
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
+        
+        .title-tag:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .title-tag:nth-child(1) {
+            background: rgba(16, 185, 129, 0.15);
+            color: #10b981;
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+        
+        .title-tag:nth-child(2) {
+            background: rgba(79, 70, 229, 0.15);
+            color: #818cf8;
+            border-color: rgba(79, 70, 229, 0.3);
+        }
+        
+        .title-tag:nth-child(3) {
+            background: rgba(139, 92, 246, 0.15);
+            color: #a78bfa;
+            border-color: rgba(139, 92, 246, 0.3);
+        }
+        
+        .title-tag:nth-child(4) {
+            background: rgba(6, 182, 212, 0.15);
+            color: #22d3ee;
+            border-color: rgba(6, 182, 212, 0.3);
         }
         
         @keyframes shimmer {
@@ -907,6 +958,15 @@
                 padding: 0.5rem 1.2rem;
                 margin: 1rem auto 1.5rem;
             }
+            .additional-titles {
+                gap: 0.7rem;
+                margin: 0.8rem auto 1.5rem;
+                padding: 0 1rem;
+            }
+            .title-tag {
+                font-size: 0.85rem;
+                padding: 0.4rem 0.9rem;
+            }
         }
         
         @media (max-width: 480px) {
@@ -920,6 +980,13 @@
             .association-label {
                 font-size: 0.9rem;
                 padding: 0.4rem 1rem;
+            }
+            .additional-titles {
+                gap: 0.5rem;
+            }
+            .title-tag {
+                font-size: 0.8rem;
+                padding: 0.3rem 0.8rem;
             }
         }
         
@@ -963,6 +1030,14 @@
             <!-- BDCG协会标签 -->
             <div class="association-label">
                 BDCG万象协会-创始人
+            </div>
+            
+            <!-- 新增头衔区域 -->
+            <div class="additional-titles">
+                <span class="title-tag">知行教育研究课题组常务组长</span>
+                <span class="title-tag">BDCG公司负责人</span>
+                <span class="title-tag">惊鸿斋美学创始人兼绘星派学者</span>
+                <span class="title-tag">强人工智能工程缔造者</span>
             </div>
             
             <p class="tagline">在几何与字符串的交汇处，构建品牌宇宙的跨维度创作者</p>
