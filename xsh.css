@@ -1,0 +1,24 @@
+/* 在@media (max-width: 768px)部分添加以下代码 */
+@media (max-width: 768px) {
+    .additional-titles {
+        gap: 0.7rem;
+        margin: 1rem auto 1.5rem;
+        padding: 0 1rem;
+    }
+    
+    .title-tag {
+        font-size: 0.85rem;
+        padding: 0.4rem 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .additional-titles {
+        gap: 0.5rem;
+    }
+    
+    .title-tag {
+        font-size: 0.8rem;
+        padding: 0.3rem 0.8rem;
+    }
+}
